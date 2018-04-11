@@ -9,7 +9,7 @@ from triton import ARCH, TritonContext, MemoryAccess, CPUSIZE, Instruction, MODE
 import os
 import sys
 
-KEY_SIZE   = 19
+KEY_SIZE   = 19  # larger will also work
 START_ADDR = 0x400729
 END_ADDR   = 0x400AA1
 
@@ -99,7 +99,7 @@ def emulate(Triton, pc):
 
         # Process
         Triton.processing(instruction)
-        print instruction
+        #print instruction
 
         # Next
         pc = Triton.getConcreteRegisterValue(Triton.registers.rip)
@@ -139,8 +139,8 @@ def initialize():
     # Define an user input
     Triton.setConcreteRegisterValue(Triton.registers.rdi, 0x10000000)
 
-    # Symbolize user inputs (19 bytes)
-    for index in range(19):
+    # Symbolize user inputs 
+    for index in range(KEY_SIZE):
         Triton.setConcreteMemoryValue(MemoryAccess(0x10000000+index,  CPUSIZE.BYTE), variables[index])
         Triton.convertMemoryToSymbolicVariable(MemoryAccess(0x10000000+index, CPUSIZE.BYTE))
 
